@@ -168,7 +168,7 @@ const Form = () => {
                     </div>
                 </div>
 
-                <div className="mt-6">
+                <div className="md:mt-6 scale-[0.45] sm:scale-75 md:scale-100 h-fit">
                     {rows.map((row, rowIndex) => (
                         <div key={rowIndex} className="flex justify-center space-x-1 mb-2">
                             {row.map((keyObj, keyIndex) => {
