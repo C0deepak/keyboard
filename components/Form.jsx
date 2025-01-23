@@ -130,7 +130,7 @@ const Form = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
             <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-4xl">
-                <h1 className="text-2xl font-bold text-center mb-4">Onscreen Keyboard</h1>
+                <h1 className="text-2xl font-bold text-center mb-4">On Screen Keyboard</h1>
 
                 <div className="space-y-4">
                     <input
@@ -168,107 +168,109 @@ const Form = () => {
                     </div>
                 </div>
 
-                <div className="md:mt-6 scale-[0.45] sm:scale-75 md:scale-100 h-fit">
-                    {rows.map((row, rowIndex) => (
-                        <div key={rowIndex} className="flex justify-center space-x-1 mb-2">
-                            {row.map((keyObj, keyIndex) => {
-                                const displayKey =
-                                    isShiftActive && keyObj.shiftChar
-                                        ? keyObj.shiftChar
-                                        : isCapsLockActive && /^[a-z]$/.test(keyObj.char)
-                                            ? keyObj.char.toUpperCase()
-                                            : keyObj.char;
+                {currentField && (
+                    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-fit bg-white md:mt-6 scale-[0.45] sm:scale-75 md:scale-100 h-fit">
+                        {rows.map((row, rowIndex) => (
+                            <div key={rowIndex} className="flex justify-center space-x-1 mb-2">
+                                {row.map((keyObj, keyIndex) => {
+                                    const displayKey =
+                                        isShiftActive && keyObj.shiftChar
+                                            ? keyObj.shiftChar
+                                            : isCapsLockActive && /^[a-z]$/.test(keyObj.char)
+                                                ? keyObj.char.toUpperCase()
+                                                : keyObj.char;
 
-                                if (keyObj.char === "Space") {
+                                    if (keyObj.char === "Space") {
+                                        return (
+                                            <button
+                                                key={keyIndex}
+                                                onClick={handleSpace}
+                                                className="w-64 px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
+                                            >
+                                                {keyObj.char}
+                                            </button>
+                                        );
+                                    }
+
+                                    if (keyObj.char === "Backspace") {
+                                        return (
+                                            <button
+                                                key={keyIndex}
+                                                onClick={handleBackspace}
+                                                className="px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
+                                            >
+                                                {keyObj.char}
+                                            </button>
+                                        );
+                                    }
+
+                                    if (keyObj.char === "Shift") {
+                                        return (
+                                            <button
+                                                key={keyIndex}
+                                                onClick={toggleShift}
+                                                className={`px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100 ${isShiftActive && "bg-neutral-200"}`}
+                                            >
+                                                {keyObj.char}
+                                            </button>
+                                        );
+                                    }
+
+                                    if (keyObj.char === "Caps Lock") {
+                                        return (
+                                            <button
+                                                key={keyIndex}
+                                                onClick={toggleCapsLock}
+                                                className={`px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-nutral-100 ${isCapsLockActive && "bg-neutral-200"}`}
+                                            >
+                                                {keyObj.char}
+                                            </button>
+                                        );
+                                    }
+
+                                    if (keyObj.char === "Tab") {
+                                        return (
+                                            <button
+                                                key={keyIndex}
+                                                onClick={handleTab}
+                                                className="px-10 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
+                                            >
+                                                {keyObj.char}
+                                            </button>
+                                        );
+                                    }
+
+                                    if (keyObj.char === "Enter") {
+                                        return (
+                                            <button
+                                                key={keyIndex}
+                                                onClick={handleEnter}
+                                                className="px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
+                                            >
+                                                {keyObj.char}
+                                            </button>
+                                        );
+                                    }
+
                                     return (
                                         <button
                                             key={keyIndex}
-                                            onClick={handleSpace}
-                                            className="w-64 px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
+                                            onClick={() => handleKeyPress(displayKey)}
+                                            className="relative px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
                                         >
                                             {keyObj.char}
+                                            {keyObj.shiftChar && (
+                                                <sup className="absolute top-1 left-1 text-xs text-neutral-900">
+                                                    {keyObj.shiftChar}
+                                                </sup>
+                                            )}
                                         </button>
                                     );
-                                }
-
-                                if (keyObj.char === "Backspace") {
-                                    return (
-                                        <button
-                                            key={keyIndex}
-                                            onClick={handleBackspace}
-                                            className="px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
-                                        >
-                                            {keyObj.char}
-                                        </button>
-                                    );
-                                }
-
-                                if (keyObj.char === "Shift") {
-                                    return (
-                                        <button
-                                            key={keyIndex}
-                                            onClick={toggleShift}
-                                            className={`px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100 ${isShiftActive && "bg-neutral-200"}`}
-                                        >
-                                            {keyObj.char}
-                                        </button>
-                                    );
-                                }
-
-                                if (keyObj.char === "Caps Lock") {
-                                    return (
-                                        <button
-                                            key={keyIndex}
-                                            onClick={toggleCapsLock}
-                                            className={`px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-nutral-100 ${isCapsLockActive && "bg-neutral-200"}`}
-                                        >
-                                            {keyObj.char}
-                                        </button>
-                                    );
-                                }
-
-                                if (keyObj.char === "Tab") {
-                                    return (
-                                        <button
-                                            key={keyIndex}
-                                            onClick={handleTab}
-                                            className="px-10 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
-                                        >
-                                            {keyObj.char}
-                                        </button>
-                                    );
-                                }
-
-                                if (keyObj.char === "Enter") {
-                                    return (
-                                        <button
-                                            key={keyIndex}
-                                            onClick={handleEnter}
-                                            className="px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
-                                        >
-                                            {keyObj.char}
-                                        </button>
-                                    );
-                                }
-
-                                return (
-                                    <button
-                                        key={keyIndex}
-                                        onClick={() => handleKeyPress(displayKey)}
-                                        className="relative px-4 py-2 bg-white text-neutral-900 shadow-md rounded hover:bg-neutral-100"
-                                    >
-                                        {keyObj.char}
-                                        {keyObj.shiftChar && (
-                                            <sup className="absolute top-1 left-1 text-xs text-neutral-900">
-                                                {keyObj.shiftChar}
-                                            </sup>
-                                        )}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    ))}
-                </div>
+                                })}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
